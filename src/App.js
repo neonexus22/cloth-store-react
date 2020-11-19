@@ -10,6 +10,8 @@ import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up
 
 import { auth } from "./firebase/firebase.util";
 
+import axios from "./axios";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +24,17 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
-      console.log("auth", user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (authUser) => {
+      let user;
+      if (authUser) {
+        const { displayName, email } = authUser;
+        user = await axios.post("/user", {
+          email,
+          displayName,
+        });
+      }
+      await this.setState({ currentUser: user?.data?.data });
+      console.log("auth", user?.data?.data);
     });
   }
 
