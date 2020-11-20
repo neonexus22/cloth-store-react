@@ -1,6 +1,8 @@
 import React from "react";
-
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { setCurrentUser } from "./redux/user/user.action";
 
 import "./App.css";
 import Header from "./components/header/header.component";
@@ -13,17 +15,10 @@ import { auth } from "./firebase/firebase.util";
 import axios from "./axios";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentUser: null,
-    };
-  }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (authUser) => {
       let user;
       if (authUser) {
@@ -33,8 +28,7 @@ class App extends React.Component {
           displayName,
         });
       }
-      await this.setState({ currentUser: user?.data?.data });
-      console.log("auth", user?.data?.data);
+      await setCurrentUser(user?.data?.data);
     });
   }
 
@@ -45,7 +39,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route path="/signin" component={SignInAndSignUpPage} />
           <Route path="/shop" component={ShopPage} />
@@ -56,4 +50,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const matchDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, matchDispatchToProps)(App);
