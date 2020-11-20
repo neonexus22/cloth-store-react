@@ -30,12 +30,11 @@ custom-button .collection-item .collection-footer .name {
   width: 10%;
 }
 
-.custom-button {
+.collection-item .custom-button {
   width: 80%;
   opacity: 0.7;
   position: absolute;
   top: 255px;
-  display: none;
 }
 
 .collection-item:hover .image {
