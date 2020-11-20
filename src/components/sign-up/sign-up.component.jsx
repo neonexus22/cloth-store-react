@@ -2,7 +2,6 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import { auth } from "../../firebase/firebase.util";
-import axios from "../../axios";
 
 import "./sign-up.styles.css";
 
@@ -20,7 +19,7 @@ class SignUp extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    const { email, displayName, password, confirmPassword } = this.state;
+    const { email, password, confirmPassword } = this.state;
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
