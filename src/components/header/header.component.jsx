@@ -2,6 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+
+import { selectCartHidden } from "../../redux/cart/cart.selector";
+import { selectCurrentUser } from "../../redux/user/user.selector";
 
 import { auth } from "../../firebase/firebase.util";
 import "./header.styles.css";
@@ -39,9 +43,9 @@ const Header = ({ currentUser, hidden }) => (
   </div>
 );
 
-const matchStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden,
+const matchStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden,
 });
 
 export default connect(matchStateToProps)(Header);

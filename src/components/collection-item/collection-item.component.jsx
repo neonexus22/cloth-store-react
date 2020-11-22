@@ -21,12 +21,13 @@ const CollectionItem = ({ item, addItem }) => (
     <CustomButton onClick={() => addItem(item)} inverted>
       {" "}
       Add to cart{" "}
-    </CustomButton>
+        </CustomButton>
   </div>
 );
 
 const mapDispatchToProps = (dispatch) => ({
   addItem: (item) => dispatch(addItem(item)),
 });
+
 
 export default connect(null, mapDispatchToProps)(CollectionItem);
